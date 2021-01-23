@@ -1995,6 +1995,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var APP_KEY = 'aa3643e4834836c83f56';
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
@@ -2052,10 +2053,10 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       this.pusher = new (pusher_js__WEBPACK_IMPORTED_MODULE_4___default())(APP_KEY, {
         authEndpoint: '/pusher/auth',
-        cluster: 'ap2',
+        cluster: 'us2',
         auth: {
           params: this.user.id,
-          header: {
+          headers: {
             'X-CSRF-Token': window.csrfToken
           }
         }
@@ -2071,6 +2072,8 @@ var App = /*#__PURE__*/function (_React$Component) {
 
           peer = _this3.startPeer(signal.userId, false);
         }
+
+        peer.signal(signal.data);
       });
     }
   }, {
@@ -2079,7 +2082,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       var initiator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      var peer = new peer({
+      var peer = new (simple_peer__WEBPACK_IMPORTED_MODULE_5___default())({
         initiator: initiator,
         stream: this.user.stream,
         trickle: false
@@ -2109,6 +2112,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 
         _this4.peers[userId] = undefined;
       });
+      return peer;
     }
   }, {
     key: "callTo",
@@ -2123,12 +2127,12 @@ var App = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "App",
         children: [[1, 2, 3, 4].map(function (userId) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
+          return _this5.user.id !== userId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
             onClick: function onClick() {
               return _this5.callTo(userId);
             },
             children: ["Call ", userId]
-          });
+          }) : null;
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "video-container",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("video", {

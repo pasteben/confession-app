@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MediaHandler from '../MediaHandler'
 import Pusher from 'pusher-js';
-import peer from 'simple-peer';
+import Peer from 'simple-peer';
+
+const APP_KEY = 'aa3643e4834836c83f56';
 
 export default class App extends React.Component {
     constructor() {
@@ -44,10 +46,10 @@ export default class App extends React.Component {
     setupPusher() {
         this.pusher = new Pusher(APP_KEY, {
             authEndpoint: '/pusher/auth',
-            cluster: 'ap2',
+            cluster: 'us2',
             auth: {
                 params: this.user.id,
-                header: {
+                headers: {
                     'X-CSRF-Token': window.csrfToken
                 }
             }
@@ -62,11 +64,13 @@ export default class App extends React.Component {
                 this.setState({otherUserId: signal.userId});
                 peer = this.startPeer(signal.userId, false);
             }
+
+            peer.signal(signal.data);
         })
     }
 
     startPeer(userId, initiator = true) {
-        const peer = new peer({
+        const peer = new Peer({
             initiator,
             stream: this.user.stream,
             trickle: false
@@ -97,7 +101,9 @@ export default class App extends React.Component {
             }
 
             this.peers[userId] = undefined;
-        })
+        });
+
+        return peer;
     }
 
     callTo(userId) {
@@ -108,9 +114,9 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="App">
-                {[1,2,3,4].map((userId) => (
-                    <button onClick={() => this.callTo(userId)}>Call {userId}</button>
-                ))}
+                {[1,2,3,4].map((userId) => {
+                    return this.user.id !== userId ? <button onClick={() => this.callTo(userId)}>Call {userId}</button> : null;
+                })}
 
                 <div className="video-container">
                     <video className="my-video" ref={(ref) => {this.myVideo = ref;}}></video>
