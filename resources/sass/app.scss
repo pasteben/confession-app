@@ -7,9 +7,31 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+}
+
+.center-text {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    text-align: center;
+    color: #fff;
+}
+
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+body {
+    background-color: #4b2920;
+    background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 
 .video-container {

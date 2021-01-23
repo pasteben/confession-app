@@ -25,6 +25,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "@material-ui/core": "^4.11.2",
         "pusher-js": "^7.0.2",
         "simple-peer": "^9.9.3"
     }

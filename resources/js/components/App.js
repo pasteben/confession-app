@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 import ReactDOM from 'react-dom';
 import MediaHandler from '../MediaHandler'
 import Pusher from 'pusher-js';
@@ -110,18 +111,27 @@ export default class App extends React.Component {
         this.peers[userId] = this.startPeer(userId);
     }
 
+    mute() {
+        this.user.stream.getAudioTracks()[0].enabled = !this.user.stream.getAudioTracks()[0].enabled;
+    }
+
+    hide() {
+        this.user.stream.getVideoTracks()[0].enabled = !this.user.stream.getVideoTracks()[0].enabled;
+    }
 
     render() {
         return (
             <div className="App">
                 {[1,2,3,4].map((userId) => {
-                    return this.user.id !== userId ? <button onClick={() => this.callTo(userId)}>Call {userId}</button> : null;
+                    return this.user.id !== userId ? <Button variant="contained" color="primary" onClick={() => this.callTo(userId)}>Call {userId}</Button> : null;
                 })}
 
                 <div className="video-container">
-                    <video className="my-video" ref={(ref) => {this.myVideo = ref;}}></video>
+                    <video muted className="my-video" ref={(ref) => {this.myVideo = ref;}}></video>
                     <video className="user-video" ref={(ref) => {this.userVideo = ref;}}></video>
                 </div>
+                <Button variant="contained" color="primary" onClick={() => this.mute()}>Toggle mute</Button>
+                <Button variant="contained" color="primary" onClick={() => this.hide()}>Toggle camera</Button>
             </div>
         );
     }
